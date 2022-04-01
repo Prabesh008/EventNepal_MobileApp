@@ -1,4 +1,12 @@
-import { View, Text, Image, StyleSheet, Button, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Button,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import React from "react";
 import Logo from "../../../assets/images/icon.png";
 import CustomInput from "../../components/CustomInput";
@@ -8,6 +16,8 @@ import SocialButton from "../../components/SocialButton";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+//APT Client
+import axios from "axios";
 
 const validation = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -17,14 +27,38 @@ const validation = Yup.object().shape({
     .label("Password"),
 });
 
-const SignIn = () => {
+const SignIn = ({ navigation }) => {
+  //To handle the login
+  const handleLogin = (credentials) => {
+    console.log(credentials);
+    const url = "http://10.0.2.2:5000/api/auth/userlogin";
+
+    axios
+      .post(url, credentials)
+      .then((response) => {
+        // console.log(response);
+        const result = response.data.success;
+        if (!result) {
+          console.log("cannot login");
+        } else {
+          navigation.navigate("Home");
+        }
+      })
+      .catch((error) => {
+        console.log("There is an error");
+      });
+  };
   // const {height} = useWindowDimensions();
   return (
     <View style={styles.root}>
       <Image source={Logo} style={styles.logo} resizeMode="contain"></Image>
       <Formik
         initialValues={{ email: "", password: "" }}
-        onSubmit={(value) => console.log(value)}
+        onSubmit={(value) => {
+          // navigation.navigate("Home");
+          handleLogin(value);
+          console.log(value);
+        }}
         validationSchema={validation}
       >
         {({ handleSubmit, handleChange, errors }) => {
@@ -83,9 +117,11 @@ const SignIn = () => {
               </Text>
 
               {/* <CustomButton text="Login" onPress={handleSubmit} /> */}
+
               <View style={{ width: "100%", marginVertical: 10 }}>
                 <Button title="Login" onPress={handleSubmit}></Button>
               </View>
+
               <SocialButton
                 style={styles.google}
                 text="Signin With Google"
@@ -104,7 +140,15 @@ const SignIn = () => {
           );
         }}
       </Formik>
-      <Text>Don't have an account? Register </Text>
+      <Text>
+        Don't have an account?{" "}
+        <Text
+          onPress={() => navigation.navigate("Register")}
+          style={{ color: "purple" }}
+        >
+          Register
+        </Text>
+      </Text>
     </View>
   );
 };

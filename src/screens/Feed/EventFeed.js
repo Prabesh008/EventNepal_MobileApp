@@ -6,6 +6,7 @@ import { TextInput } from "react-native";
 import { Button } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Searchbar } from "react-native-paper";
+import { useState, useEffect } from "react";
 
 const temporary = [
   {
@@ -59,6 +60,17 @@ const temporary = [
 ];
 
 const EventFeed = ({ props, navigation }) => {
+  //   const [listings, setListings] = useState([]);
+
+  //   useEffect(() => {
+  //     loadlistings();
+  //   }, []);
+
+  //   const loadlistings = async () => {
+  //     const response = await listingsApi.getListings();
+  //     setListings(response.data);
+  //   };
+
   return (
     <View
       style={{
