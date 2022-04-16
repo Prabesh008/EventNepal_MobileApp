@@ -4,7 +4,7 @@ import { View, StyleSheet, Image, Text } from "react-native";
 function ListItem({ time, desc, image }) {
   return (
     <View style={styles.outerview}>
-      {image && <Image style={styles.image} source={image} />}
+      <Image style={styles.image} source={image} />
       <View style={styles.innerview}>
         <Text style={{ marginBottom: 5, fontWeight: "bold", color: "orange" }}>
           {time}

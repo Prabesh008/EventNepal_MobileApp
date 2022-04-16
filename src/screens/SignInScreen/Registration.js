@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, Button } from "react-native";
-import { Formik, FormInput } from "formik";
+import { Formik, FormInput, Form } from "formik";
 import * as Yup from "yup";
 import IconInput from "../../components/IconInput";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -25,8 +25,8 @@ const Registration = () => {
 
   const handleSignUp = (credentials) => {
     console.log(credentials);
-    const url = "http://10.0.2.2:5000/api/auth/createuser";
-
+    const url = "http://192.168.0.2:5000/api/auth/createuser";
+    //10.0.2.2
     axios
       .post(url, credentials)
       .then((response) => {
@@ -43,6 +43,10 @@ const Registration = () => {
         console.log(error);
       });
   };
+
+  function clearField() {
+    console.log("clear the fucking input fields");
+  }
   return (
     <View style={styles.outerContainer}>
       <Formik
@@ -52,10 +56,9 @@ const Registration = () => {
           password: "",
           confirmpassword: "",
         }}
-        onSubmit={(value, formikActions) => {
+        onSubmit={(value) => {
           console.log(value);
           handleSignUp(value);
-          // formikActions.resetForm();
         }}
         validationSchema={validation}
       >
@@ -158,6 +161,7 @@ const styles = StyleSheet.create({
   outerContainer: {
     padding: 10,
     marginTop: 36,
+    // backgroundColor: "blue",
   },
 
   viewHeader: {

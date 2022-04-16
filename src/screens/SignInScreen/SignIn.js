@@ -13,11 +13,15 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import IconInput from "../../components/IconInput";
 import SocialButton from "../../components/SocialButton";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-//APT Client
+//API Client
 import axios from "axios";
+import * as Google from "expo-google-app-auth";
+// import { Alert } from "react-native";
+import ErrorMessage from "../../components/ErrorMessage";
+import { clear } from "react-native/Libraries/LogBox/Data/LogBoxData";
 
 const validation = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -31,7 +35,9 @@ const SignIn = ({ navigation }) => {
   //To handle the login
   const handleLogin = (credentials) => {
     console.log(credentials);
-    const url = "http://10.0.2.2:5000/api/auth/userlogin";
+    // const url = "http://10.0.2.2:5000/api/auth/userlogin";
+    // const url = "http://192.168.0.4:5000/api/auth/userlogin";
+    const url = "http://192.168.0.2:5000/api/auth/userlogin";
 
     axios
       .post(url, credentials)
@@ -45,9 +51,34 @@ const SignIn = ({ navigation }) => {
         }
       })
       .catch((error) => {
-        console.log("There is an error");
+        // console.log("There is an error");
+        alert("Password or email does not match");
       });
   };
+
+  //Google SignIn code
+
+  const handleGoogleSignin = () => {
+    const config = {
+      iosClientId: `289986232685-5q3f2ij39vraufj3vkl1t1061hijhdjg.apps.googleusercontent.com`,
+      androidClientId: `289986232685-3439u35g8k1j674u4mpljud5vobat6du.apps.googleusercontent.com`,
+      scopes: ["profile", "email"],
+    };
+
+    Google.logInAsync(config).then((result) => {
+      const { type, user } = result;
+
+      if (type == "success") {
+        console.log("Google Signup Successful");
+        setTimeout(() => {
+          navigation.navigate("Home");
+        }, 1000);
+      } else {
+        console.log("Google Signup Unsuccessful");
+      }
+    });
+  };
+
   // const {height} = useWindowDimensions();
   return (
     <View style={styles.root}>
@@ -61,7 +92,15 @@ const SignIn = ({ navigation }) => {
         }}
         validationSchema={validation}
       >
-        {({ handleSubmit, handleChange, errors }) => {
+        {({
+          handleSubmit,
+          handleChange,
+          errors,
+          touched,
+          setFieldTouched,
+          onBlur,
+          isPassword,
+        }) => {
           return (
             <>
               {/* <IconInput
@@ -90,12 +129,14 @@ const SignIn = ({ navigation }) => {
                   placeholder="Enter Username or email"
                   // value={username}
                   onChangeText={handleChange("email")}
+                  onBlur={() => setFieldTouched("email")}
                 ></TextInput>
               </View>
 
-              <Text style={{ color: "red", marginVertical: 10 }}>
+              <ErrorMessage error={errors.email} visible={touched.email} />
+              {/* <Text style={{ color: "red", marginVertical: 10 }}>
                 {errors.email}
-              </Text>
+              </Text> */}
 
               <View style={styles.textcontainer}>
                 <MaterialCommunityIcons
@@ -110,11 +151,17 @@ const SignIn = ({ navigation }) => {
                   placeholder="Enter password"
                   // value={username}
                   onChangeText={handleChange("password")}
+                  onBlur={() => setFieldTouched("password")}
                 ></TextInput>
               </View>
-              <Text style={{ color: "red", marginVertical: 10 }}>
+
+              <ErrorMessage
+                error={errors.password}
+                visible={touched.password}
+              />
+              {/* <Text style={{ color: "red", marginVertical: 10 }}>
                 {errors.password}
-              </Text>
+              </Text> */}
 
               {/* <CustomButton text="Login" onPress={handleSubmit} /> */}
 
@@ -128,6 +175,7 @@ const SignIn = ({ navigation }) => {
                 name="google"
                 size={30}
                 color="green"
+                onPress={handleGoogleSignin}
               />
               <SocialButton
                 style={styles.facebook}
@@ -193,6 +241,7 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 3,
     borderRadius: 9,
+    marginVertical: 10,
   },
 });
 

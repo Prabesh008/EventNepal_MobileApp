@@ -1,27 +1,46 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React from "react";
+import Screen from "../../components/Screen";
 import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useContext } from "react";
+import EventContextProvider from "../../Context/EventContext";
+import { EventContext } from "../../Context/EventContext";
+import { useRoute } from "@react-navigation/native";
+// const LeftContent = (props) => <Avatar.Icon {...props} />;
 
-const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
+const EventDetails = ({ navigation }) => {
+  const handlePress = () => {
+    console.log("Button Pressed");
+  };
 
-const EventDetails = () => {
+  const route = useRoute();
+  // const { events } = useContext(EventContext);
+
   return (
-    <Card style={{ marginTop: 10, margin: 10 }}>
-      <Card.Title
-        title="Card Title"
-        subtitle="Card Subtitle"
-        left={LeftContent}
-      />
-      <Card.Content>
-        <Title>Card title</Title>
-        <Paragraph>Card content</Paragraph>
-      </Card.Content>
-      <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
-      <Card.Actions>
-        <Button>Cancel</Button>
-        <Button>Ok</Button>
-      </Card.Actions>
-    </Card>
+    <Screen>
+      <Card style={{ height: "90%", borderWidth: 2, borderColor: "black" }}>
+        <Card.Title title={route.params.title} subtitle="Card Subtitle" />
+        <Card.Cover
+          source={{ uri: "https://picsum.photos/700" }}
+          style={{ marginHorizontal: 10 }}
+        />
+        <Card.Content>
+          <Paragraph>Location: {route.params.location}</Paragraph>
+          <Paragraph>Date: {route.params.date}</Paragraph>
+          <Paragraph>{route.params.description}</Paragraph>
+        </Card.Content>
+        <Card.Actions style={{ marginTop: 20 }}>
+          <Button
+            color="white"
+            style={{ backgroundColor: "dodgerblue" }}
+            onPress={handlePress}
+          >
+            Navigate
+          </Button>
+        </Card.Actions>
+      </Card>
+    </Screen>
   );
 };
 

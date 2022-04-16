@@ -7,96 +7,85 @@ import { Button } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
-const temporary = [
-  {
-    id: 1,
-    day: "Sunday",
-    desc: "This Event is for the people who want to celebrate a great valentines day with the  love of their life",
-    image: require("../../../assets/images/icon.png"),
-  },
+//importing contexts
+import { useContext } from "react";
+import EventContextProvider from "../../Context/EventContext";
+import { EventContext } from "../../Context/EventContext";
+import EventDetails from "./EventDetails";
 
-  {
-    id: 2,
-    day: "Monday",
-    desc: "This Event is for the people who want to celebrate a great valentines day with the  love of their life",
-    image: require("../../../assets/images/icon.png"),
-  },
+const EventFeed = ({ navigation }) => {
+  // const [events, setEvents] = useState([]);
 
-  {
-    id: 3,
-    day: "Tuesday",
-    desc: "This Event is for the people who want to celebrate a great valentines day with the  love of their life",
-    image: require("../../../assets/images/icon.png"),
-  },
-
-  {
-    id: 4,
-    day: "Wednesday",
-    desc: "This Event is for the people who want to celebrate a great valentines day with the  love of their life",
-    image: require("../../../assets/images/icon.png"),
-  },
-
-  {
-    id: 5,
-    day: "Thursday",
-    desc: "This Event is for the people who want to celebrate a great valentines day with the  love of their life",
-    image: require("../../../assets/images/icon.png"),
-  },
-
-  {
-    id: 6,
-    day: "Friday",
-    desc: "This Event is for the people who want to celebrate a great valentines day with the  love of their life",
-    image: require("../../../assets/images/icon.png"),
-  },
-
-  {
-    id: 7,
-    day: "Saturday",
-    desc: "This Event is for the people who want to celebrate a great valentines day with the  love of their life",
-    image: require("../../../assets/images/icon.png"),
-  },
-];
-
-const EventFeed = ({ props, navigation }) => {
-  //   const [listings, setListings] = useState([]);
-
-  //   useEffect(() => {
-  //     loadlistings();
-  //   }, []);
-
-  //   const loadlistings = async () => {
-  //     const response = await listingsApi.getListings();
-  //     setListings(response.data);
-  //   };
+  // // Get all Events
+  // const getEvents = async () => {
+  //   // API Call
+  //   try {
+  //     const response = await fetch(
+  //       "http://192.168.0.2:5000/api/event/fetchallevents",
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     const json = await response.json();
+  //     setEvents(json);
+  //     console.log(
+  //       "*****************************************************************"
+  //     );
+  //     console.log(events);
+  //   } catch {
+  //     console.log("Couldn't fetch the event list");
+  //   }
+  // };
+  const { events, getEvents } = useContext(EventContext);
+  // const url = "http://192.168.0.2:5000/api/event/fetchallevents";
+  useEffect(() => {
+    getEvents();
+  }, [events]);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "column-reverse",
-        // marginTop: Constants.statusBarHeight,
-      }}
-    >
-      <View style={styles.screen}>
-        <FlatList
-          data={temporary}
-          keyExtractor={(temp) => temp.id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("EventDetails")}
-            >
-              <ListItem time={item.day} desc={item.desc} image={item.image} />
-            </TouchableOpacity>
-          )}
-        ></FlatList>
-      </View>
+    <EventContextProvider>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "column-reverse",
+          // marginTop: Constants.statusBarHeight,
+        }}
+      >
+        <View style={styles.screen}>
+          <FlatList
+            data={events}
+            keyExtractor={(event) => event._id.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("EventDetails", {
+                    title: item.title,
+                    description: item.description,
+                    location: item.location,
+                    date: item.date,
+                  })
+                }
+              >
+                <ListItem
+                  time={item.title}
+                  desc={item.description}
+                  image={item.image}
+                />
+              </TouchableOpacity>
+            )}
+          ></FlatList>
+        </View>
 
-      <View style={styles.header}>
-        <Searchbar placeholder="Search" />
+        <View style={styles.header}>
+          <Searchbar placeholder="Search" />
+        </View>
       </View>
-    </View>
+    </EventContextProvider>
   );
 };
 
@@ -123,3 +112,21 @@ const styles = StyleSheet.create({
   },
 });
 export default EventFeed;
+
+//Chaleko view ko code temporary data ko wala
+
+{
+  /* <View style={styles.screen}>
+<FlatList
+  data={temporary}
+  keyExtractor={(temp) => temp.id.toString()}
+  renderItem={({ item }) => (
+    <TouchableOpacity
+      onPress={() => navigation.navigate("EventDetails")}
+    >
+      <ListItem time={item.day} desc={item.desc} image={item.image} />
+    </TouchableOpacity>
+  )}
+></FlatList>
+</View> */
+}

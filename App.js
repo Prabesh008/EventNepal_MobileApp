@@ -13,6 +13,11 @@ import EventDetails from "./src/screens/Feed/EventDetails";
 import Account from "./src/screens/SignInScreen/Account";
 // import BottomNavigator from "./src/components/BottomNavigator";
 import StackNavigation from "./src/components/StackNavigation";
+import Screen from "./src/components/Screen";
+import SignIn from "./src/screens/SignInScreen/SignIn";
+import NewSignIn from "./src/screens/SignInScreen/NewSignIn";
+import NewRegistration from "./src/screens/SignInScreen/NewRegistration";
+import EventContextProvider from "./src/Context/EventContext";
 
 // const Stack = createNativeStackNavigator();
 
@@ -56,7 +61,11 @@ import StackNavigation from "./src/components/StackNavigation";
 export default function App() {
   return (
     <>
-      <StackNavigation />
+      <EventContextProvider>
+        <Screen>
+          <StackNavigation />
+        </Screen>
+      </EventContextProvider>
     </>
   );
 }

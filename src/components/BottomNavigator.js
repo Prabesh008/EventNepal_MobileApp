@@ -8,7 +8,12 @@ const Tab = createBottomTabNavigator();
 
 const BottomNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        headerTitle: "",
+        headerTransparent: "true",
+      }}
+    >
       <Tab.Screen name="Feed" component={EventFeed}></Tab.Screen>
       <Tab.Screen name="FindEvent" component={SearchEvent}></Tab.Screen>
       <Tab.Screen name="Account" component={Account}></Tab.Screen>
