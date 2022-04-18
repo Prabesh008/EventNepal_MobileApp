@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Screen from "../../components/Screen";
 import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -7,11 +7,13 @@ import { useContext } from "react";
 import EventContextProvider from "../../Context/EventContext";
 import { EventContext } from "../../Context/EventContext";
 import { useRoute } from "@react-navigation/native";
+
 // const LeftContent = (props) => <Avatar.Icon {...props} />;
 
 const EventDetails = ({ navigation }) => {
   const handlePress = () => {
     console.log("Button Pressed");
+    navigation.navigate("MapView");
   };
 
   const route = useRoute();

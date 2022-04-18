@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, View, FlatList, Image } from "react-native";
 import AppText from "../../components/AppText";
 import Screen from "../../components/Screen";
@@ -7,6 +7,8 @@ import ListItemSeparatorComponent from "../../components/ListItemSeperator";
 import colors from "../../../config/colors";
 import Icon from "../../components/Icon";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import AuthContext from "../../Context/authContext";
+import { Button } from "react-native";
 
 const menuItems = [
   {
@@ -40,6 +42,7 @@ const menuItems = [
   </View> */
 
 const Account = (props) => {
+  const { user, setUser } = useContext(AuthContext);
   return (
     <Screen style={styles.screen}>
       <View style={styles.top_view}>
@@ -47,8 +50,8 @@ const Account = (props) => {
           style={styles.image}
           source={require("../../../assets/images/profile_picture.jpg")}
         />
-        <AppText>Prabesh Khati Chhetri</AppText>
-        <AppText>prabeshkhati40@gmail.com</AppText>
+        <AppText>{user.name}</AppText>
+        <AppText>{user.email}</AppText>
       </View>
       <View style={styles.container}>
         <FlatList
@@ -70,12 +73,16 @@ const Account = (props) => {
           )}
         />
       </View>
-      <TouchableNativeFeedback>
-        <ListItem
-          title="Log Out"
-          IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
-        />
-      </TouchableNativeFeedback>
+      {/* <ListItem
+        title="Log Out"
+        IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
+      /> */}
+      <Button
+        title="Logout"
+        onPress={() => {
+          setUser(null);
+        }}
+      />
     </Screen>
   );
 };

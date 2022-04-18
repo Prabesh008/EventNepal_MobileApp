@@ -36,7 +36,7 @@ import KeyboardAvoidingWrapper from "../../components/KeyBoardAvoidingWrapper";
 //colors
 const { brand, darkLight, primary } = Colors;
 
-const NewRegistration = () => {
+const NewRegistration = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
 
   //Validation with yup
@@ -55,7 +55,7 @@ const NewRegistration = () => {
 
   const handleSignUp = (credentials) => {
     console.log(credentials);
-    const url = "http://192.168.0.2:5000/api/auth/createuser";
+    const url = "http://192.168.0.4:5000/api/auth/createuser";
     //10.0.2.2
     axios
       .post(url, credentials)
@@ -190,7 +190,7 @@ const NewRegistration = () => {
                 <Line />
                 <ExtraView>
                   <ExtraText>Already have an account?</ExtraText>
-                  <TextLink>
+                  <TextLink onPress={() => navigation.navigate("Login")}>
                     <TextLinkContent>Login</TextLinkContent>
                   </TextLink>
                 </ExtraView>

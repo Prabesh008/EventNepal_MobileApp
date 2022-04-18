@@ -1,75 +1,47 @@
 import { StatusBar } from "expo-status-bar";
 import Constants from "expo-constants";
 import { StyleSheet, Text, TextInput, View } from "react-native";
-// import SignIn from "./src/screens/SignInScreen/SignIn";
-// import EventFeed from "./src/screens/SignInScreen/EventFeed";
-// import Registration from "./src/screens/SignInScreen/Registration";
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import { NavigationContainer } from "@react-navigation/native";
 import { Button } from "react-native";
 import EventFeed from "./src/screens/Feed/EventFeed";
 import EventDetails from "./src/screens/Feed/EventDetails";
 import Account from "./src/screens/SignInScreen/Account";
-// import BottomNavigator from "./src/components/BottomNavigator";
 import StackNavigation from "./src/components/StackNavigation";
 import Screen from "./src/components/Screen";
 import SignIn from "./src/screens/SignInScreen/SignIn";
 import NewSignIn from "./src/screens/SignInScreen/NewSignIn";
 import NewRegistration from "./src/screens/SignInScreen/NewRegistration";
 import EventContextProvider from "./src/Context/EventContext";
+import React, { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+//appLoading
+import AppLoading from "expo-app-loading";
 
-// const Stack = createNativeStackNavigator();
+//async-storage
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// const Tab = createBottomTabNavigator();
-
-// function MyTabs() {
-//   return (
-//     <Tab.Navigator>
-//       <Tab.Screen name="feed" component={Event} />
-//       <Tab.Screen name="account" component={Account} />
-//     </Tab.Navigator>
-//   );
-// }
-// const Account = () => <Text>This is the account section</Text>;
-// const Event = ({ navigation }) => (
-//   <>
-//     <Text>Event feed</Text>
-//     <Button
-//       title="press"
-//       onPress={() => navigation.navigate("eventdetails")}
-//     ></Button>
-//   </>
-// );
-
-// const EventDetail = () => <Text>Event Details</Text>;
-
-// const MyStack = () => (
-//   <Stack.Navigator
-//   screenOptions={{
-
-//   }}>
-//     <Stack.Screen
-//       name="home"
-//       component={BottomNavigator}
-//       options={{ headerShown: false }}
-//     />
-//     <Stack.Screen name="EventDetails" component={EventDetails} />
-//   </Stack.Navigator>
-// );
+//credentials context
+import { CredentialsContext } from "./src/Context/CredentialsContext";
+import AuthContext from "./src/Context/authContext";
+import BottomNavigator from "./src/components/BottomNavigator";
+import AuthNavigator from "./src/components/Navigation/AuthNavigator";
+import AppNavigator from "./src/components/Navigation/AppNavigator";
 
 export default function App() {
+  const [user, setUser] = useState();
+  console.log(user);
+
   return (
-    <>
+    <AuthContext.Provider value={{ user, setUser }}>
       <EventContextProvider>
         <Screen>
-          <StackNavigation />
+          <NavigationContainer>
+            {user ? <StackNavigation /> : <AuthNavigator />}
+          </NavigationContainer>
         </Screen>
       </EventContextProvider>
-    </>
+    </AuthContext.Provider>
   );
 }
-<Account username="Prabesh" user_email="prabeshkhati40@gmail.com" />;
 
 const styles = StyleSheet.create({
   view: {
@@ -78,9 +50,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
 });
-
-/* <Stack.Navigator>
-  <Stack.Screen name="EventFeed" component={EventFeed}></Stack.Screen>
-  <Stack.Screen name="EventDetails" component={EventDetails}></Stack.Screen>
-  <Stack.Screen name="Account" component={Account}></Stack.Screen>
-</Stack.Navigator>; */

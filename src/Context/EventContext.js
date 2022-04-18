@@ -13,7 +13,7 @@ function EventContextProvider(props) {
     // API Call
     try {
       const response = await fetch(
-        "http://192.168.0.2:5000/api/event/fetchallevents",
+        "http://192.168.0.4:5000/api/event/fetchallevents",
         {
           method: "GET",
           headers: {

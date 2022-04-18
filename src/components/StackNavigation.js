@@ -27,28 +27,22 @@ const Stack = createNativeStackNavigator();
 
 const StackNavigation = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "white",
-          },
-          headerTintColor: "grey",
-          headerTransparent: false,
-          headerTitle: "",
-        }}
-        initialRouteName="Login"
-      >
-        <Stack.Screen name="Login" component={NewSignIn}></Stack.Screen>
-        <Stack.Screen
-          name="Register"
-          component={NewRegistration}
-        ></Stack.Screen>
-        <Stack.Screen name="Home" component={BottomNavigator}></Stack.Screen>
-        <Stack.Screen name="EventDetails" component={EventDetails} />
-        <Stack.Screen name="MapView" component={Map} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "white",
+        },
+        headerTintColor: "grey",
+        headerTransparent: false,
+        headerTitle: "",
+        headerShown: true,
+      }}
+      initialRouteName="Home"
+    >
+      <Stack.Screen name="Home" component={BottomNavigator}></Stack.Screen>
+      <Stack.Screen name="EventDetails" component={EventDetails} />
+      <Stack.Screen name="MapView" component={Map} />
+    </Stack.Navigator>
   );
 };
 

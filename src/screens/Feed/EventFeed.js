@@ -16,36 +16,12 @@ import { EventContext } from "../../Context/EventContext";
 import EventDetails from "./EventDetails";
 
 const EventFeed = ({ navigation }) => {
-  // const [events, setEvents] = useState([]);
-
-  // // Get all Events
-  // const getEvents = async () => {
-  //   // API Call
-  //   try {
-  //     const response = await fetch(
-  //       "http://192.168.0.2:5000/api/event/fetchallevents",
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     const json = await response.json();
-  //     setEvents(json);
-  //     console.log(
-  //       "*****************************************************************"
-  //     );
-  //     console.log(events);
-  //   } catch {
-  //     console.log("Couldn't fetch the event list");
-  //   }
-  // };
   const { events, getEvents } = useContext(EventContext);
+
   // const url = "http://192.168.0.2:5000/api/event/fetchallevents";
   useEffect(() => {
     getEvents();
-  }, [events]);
+  }, []);
 
   return (
     <EventContextProvider>

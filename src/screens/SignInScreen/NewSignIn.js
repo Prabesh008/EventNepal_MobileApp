@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   StyledContainer,
@@ -34,6 +34,7 @@ import * as Yup from "yup";
 
 //keyboard avoiding wrapper
 import KeyboardAvoidingWrapper from "../../components/KeyBoardAvoidingWrapper";
+import AuthContext from "../../Context/authContext";
 
 //colors
 const { brand, darkLight, primary } = Colors;
@@ -48,13 +49,33 @@ const validation = Yup.object().shape({
 
 const NewSignIn = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
+  const authContext = useContext(AuthContext);
+
+  // extracting the loggedin user details
+  const getUserData = async (authtoken) => {
+    // API Call
+    try {
+      const response = await fetch("http://192.168.0.4:5000/api/auth/getuser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": authtoken,
+        },
+      });
+      const json = await response.json();
+      authContext.setUser(json);
+    } catch {
+      console.log("Couldn't fetch the user details list");
+    }
+  };
+  // authContext.setUser(user);
 
   //To handle the login
   const handleLogin = (credentials) => {
     console.log(credentials);
     // const url = "http://10.0.2.2:5000/api/auth/userlogin";
     // const url = "http://192.168.0.4:5000/api/auth/userlogin";
-    const url = "http://192.168.0.2:5000/api/auth/userlogin";
+    const url = "http://192.168.0.4:5000/api/auth/userlogin";
 
     axios
       .post(url, credentials)
@@ -62,14 +83,16 @@ const NewSignIn = ({ navigation }) => {
         // console.log(response);
         const result = response.data.success;
         if (!result) {
-          console.log("cannot login");
+          console.log("Couldn't signin");
         } else {
-          navigation.navigate("Home");
+          const data = response.data.authtoken;
+          getUserData(data);
+          // navigation.navigate("Home");
         }
       })
       .catch((error) => {
         // console.log("There is an error");
-        alert(error.data);
+        alert("Password or email does not match");
       });
   };
 

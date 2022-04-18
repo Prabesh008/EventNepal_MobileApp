@@ -1,3 +1,4 @@
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import EventFeed from "../screens/Feed/EventFeed";
 import SearchEvent from "../screens/Feed/SearchEvent";
