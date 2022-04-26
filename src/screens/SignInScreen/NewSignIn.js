@@ -1,5 +1,13 @@
 import React, { useContext, useState } from "react";
 import { StatusBar } from "expo-status-bar";
+//importing secure storage functions
+import AuthStorage from "../../Context/AuthStorage";
+
+//For google signup
+import * as WebBrowser from "expo-web-browser";
+import * as Google from "expo-auth-session/providers/google";
+// import Screen from "../../components/Screen";
+
 import {
   StyledContainer,
   InnerContainer,
@@ -46,10 +54,26 @@ const validation = Yup.object().shape({
     .min(6, "password too short")
     .label("Password"),
 });
+//For google signup
+WebBrowser.maybeCompleteAuthSession();
 
 const NewSignIn = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
+  const [authtoken, setAuthToken] = useState();
   const authContext = useContext(AuthContext);
+  const [accessToken, setAccessToken] = useState();
+
+  //google signup
+
+  // const [request, response, promptAsync] = Google.useAuthRequest({
+  //   expoClientId: "acd94c65-f0a1-4c47-a763-8ce010a80d6f",
+  // });
+
+  // React.useEffect(() => {
+  //   if (response?.type === "success") {
+  //     const { authentication } = response;
+  //   }
+  // }, [response]);
 
   // extracting the loggedin user details
   const getUserData = async (authtoken) => {
@@ -86,7 +110,10 @@ const NewSignIn = ({ navigation }) => {
           console.log("Couldn't signin");
         } else {
           const data = response.data.authtoken;
+          setAuthToken(data);
+          // console.log(data);
           getUserData(data);
+          AuthStorage.storeToken(data);
           // navigation.navigate("Home");
         }
       })
@@ -103,7 +130,7 @@ const NewSignIn = ({ navigation }) => {
         <InnerContainer>
           <PageLogo
             resizeMode="cover"
-            source={require("../../../assets/images/icon.png")}
+            source={require("../../../assets/images/logo.png")}
           />
           <PageTitle>Event Nepal</PageTitle>
           <SubTitle>Account Login</SubTitle>
@@ -159,7 +186,12 @@ const NewSignIn = ({ navigation }) => {
                   <ButtonText>Login</ButtonText>
                 </StyledButton>
                 <Line />
-                <StyledButton google={true} onPress={handleSubmit}>
+                <StyledButton
+                  google={true}
+                  onPress={() => {
+                    promptAsync();
+                  }}
+                >
                   <Fontisto
                     name="google"
                     color={primary}

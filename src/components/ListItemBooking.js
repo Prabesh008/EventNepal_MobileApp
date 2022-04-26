@@ -1,19 +1,15 @@
 import React from "react";
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 
-function ListItem({ time, title, desc }) {
+function ListItemBooking({ title, username, location }) {
   return (
     <View style={styles.outerview}>
-      <Image
-        style={styles.image}
-        source={require("../../assets/images/eventpic.jpg")}
-      />
       <View style={styles.innerview}>
         <Text style={{ marginBottom: 5, fontWeight: "bold", color: "orange" }}>
           {title}
         </Text>
-        <Text style={{ fontWeight: "bold", marginVertical: 5 }}>{time}</Text>
-        <Text numberOfLines={2}>{desc}</Text>
+        <Text>{username}</Text>
+        <Text>{location}</Text>
       </View>
     </View>
   );
@@ -32,11 +28,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     elevation: 5,
   },
-  image: {
-    height: 70,
-    width: 70,
-    alignSelf: "center",
-  },
   innerview: {
     justifyContent: "center",
     marginLeft: 10,
@@ -47,4 +38,4 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
-export default ListItem;
+export default ListItemBooking;

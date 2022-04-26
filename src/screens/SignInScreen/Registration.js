@@ -36,17 +36,14 @@ const Registration = () => {
           console.log("cannot register");
         } else {
           // navigation.navigate("Home");
-          console.log("user registered successfully");
+          alert("user registered successfully");
         }
       })
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   };
 
-  function clearField() {
-    console.log("clear the fucking input fields");
-  }
   return (
     <View style={styles.outerContainer}>
       <Formik

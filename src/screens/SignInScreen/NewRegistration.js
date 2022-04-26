@@ -62,15 +62,16 @@ const NewRegistration = ({ navigation }) => {
       .then((response) => {
         // console.log(response);
         const result = response.data.success;
-        if (!result) {
-          console.log("cannot register");
-        } else {
-          // navigation.navigate("Home");
-          console.log("user registered successfully");
+        if (result) {
+          alert("user registered successfully");
+          setTimeout(() => {
+            navigation.navigate("Login");
+          }, 1000);
         }
       })
       .catch((error) => {
-        alert(error.data);
+        alert("The user could not be registered");
+        // alert(error.json.error);
       });
   };
 

@@ -37,6 +37,7 @@ export const InnerContainer = styled.View`
   flex: 1;
   width: 100%;
   align-items: center;
+  padding-top: 40px;
 `;
 
 export const PageLogo = styled.Image`

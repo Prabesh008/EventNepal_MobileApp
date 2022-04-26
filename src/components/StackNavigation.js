@@ -8,6 +8,7 @@ import NewRegistration from "../screens/SignInScreen/NewRegistration";
 import EventDetails from "../screens/Feed/EventDetails";
 import BottomNavigator from "./BottomNavigator";
 import Map from "../screens/Feed/Map";
+import Booking from "../screens/Feed/Booking";
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +43,7 @@ const StackNavigation = () => {
       <Stack.Screen name="Home" component={BottomNavigator}></Stack.Screen>
       <Stack.Screen name="EventDetails" component={EventDetails} />
       <Stack.Screen name="MapView" component={Map} />
+      <Stack.Screen name="Booking" component={Booking}></Stack.Screen>
     </Stack.Navigator>
   );
 };

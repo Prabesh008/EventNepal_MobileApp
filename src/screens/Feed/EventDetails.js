@@ -12,12 +12,17 @@ import { useRoute } from "@react-navigation/native";
 
 const EventDetails = ({ navigation }) => {
   const handlePress = () => {
-    console.log("Button Pressed");
     navigation.navigate("MapView");
   };
 
   const route = useRoute();
   // const { events } = useContext(EventContext);
+
+  // const title = route.params.title;
+  // const location = route.params.location;
+  // const eventcode = route.params.eventcode;
+  // const date = route.params.date;
+  // const description = route.params.description;
 
   return (
     <Screen>
@@ -39,6 +44,21 @@ const EventDetails = ({ navigation }) => {
             onPress={handlePress}
           >
             Navigate
+          </Button>
+          <Button
+            color="white"
+            style={{ backgroundColor: "dodgerblue", marginLeft: 10 }}
+            onPress={() => {
+              navigation.navigate("Booking", {
+                title: route.params.title,
+                location: route.params.location,
+                eventcode: route.params.eventcode,
+                date: route.params.date,
+                description: route.params.description,
+              });
+            }}
+          >
+            Booking
           </Button>
         </Card.Actions>
       </Card>

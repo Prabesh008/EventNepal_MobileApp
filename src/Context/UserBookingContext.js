@@ -3,17 +3,17 @@ import { useState, useEffect, createContext } from "react";
 
 //defining context
 
-export const EventContext = createContext();
+export const UserBookingContext = createContext();
 
-function EventContextProvider(props) {
-  const [events, setEvents] = useState([]);
+function UserBookingContextProvider(props) {
+  const [booking, setBooking] = useState([]);
 
-  // Get all Events
-  const getEvents = async () => {
+  // Get all User Bookings
+  const getBooking = async () => {
     // API Call
     try {
       const response = await fetch(
-        "http://192.168.0.4:5000/api/event/fetchallevents",
+        "http://192.168.0.5:5000/api/event/fetchallevents",
         {
           method: "GET",
           headers: {
@@ -31,14 +31,4 @@ function EventContextProvider(props) {
       console.log("Couldn't fetch the event list");
     }
   };
-
-  const value = { events, getEvents };
-
-  return (
-    <EventContext.Provider value={value}>
-      {props.children}
-    </EventContext.Provider>
-  );
 }
-
-export default EventContextProvider;

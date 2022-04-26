@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import * as Location from "expo-location";
 
 export default function Map() {
   //getting the user location
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState({ latitude: "", longitude: "" });
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
@@ -16,12 +16,16 @@ export default function Map() {
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      console.log(location);
-      console.log(location.coords.latitude);
+      let location = await Location.getLastKnownPositionAsync({});
+      setLocation(location.coords);
+      // console.log(location.coords.latitude);
+      // console.log("/////////////////////");
+      // console.log(location);
     })();
   }, []);
+
+  let latitude = location.latitude;
+  let longitude = location.longitude;
 
   // let text = "Waiting..";
   // if (errorMsg) {
@@ -38,12 +42,30 @@ export default function Map() {
         style={styles.map}
         loadingEnabled={true}
         region={{
-          latitude: 27.7281728,
+          latitude: 27.7281729,
           longitude: 85.2955202,
           latitudeDelta: 0.015,
-          longitudeDelta: 0.021,
+          longitudeDelta: 0.025,
         }}
-      />
+      >
+        <Marker
+          coordinate={{
+            latitude: 27.7281729,
+            longitude: 85.2955202,
+          }}
+          title={"Initial Position"}
+          description={"This is my current location"}
+        />
+
+        <Marker
+          coordinate={{
+            latitude: 27.728144,
+            longitude: 85.2985202,
+          }}
+          title={"Final Position"}
+          description={"This is the location of the event"}
+        />
+      </MapView>
     </View>
   );
 }

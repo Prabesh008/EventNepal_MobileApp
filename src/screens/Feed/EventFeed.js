@@ -17,11 +17,12 @@ import EventDetails from "./EventDetails";
 
 const EventFeed = ({ navigation }) => {
   const { events, getEvents } = useContext(EventContext);
+  // console.log(events);
 
   // const url = "http://192.168.0.2:5000/api/event/fetchallevents";
   useEffect(() => {
     getEvents();
-  }, []);
+  }, [events]);
 
   return (
     <EventContextProvider>
@@ -44,21 +45,23 @@ const EventFeed = ({ navigation }) => {
                     description: item.description,
                     location: item.location,
                     date: item.date,
+                    eventcode: item.eventcode,
                   })
                 }
               >
                 <ListItem
-                  time={item.title}
+                  title={item.title}
+                  time={item.date}
                   desc={item.description}
-                  image={item.image}
                 />
               </TouchableOpacity>
             )}
           ></FlatList>
         </View>
-
         <View style={styles.header}>
-          <Searchbar placeholder="Search" />
+          <Text style={{ fontSize: 30, fontWeight: "bold", color: "green" }}>
+            EventFeed
+          </Text>
         </View>
       </View>
     </EventContextProvider>
@@ -78,13 +81,13 @@ const styles = StyleSheet.create({
   header: {
     //borderWidth:2,
     //borderColor:"black",
-    height: 100,
+    backgroundColor: "ghostwhite",
     marginHorizontal: 5,
-    flex: 0.18,
+    flex: 0.12,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    width: "90%",
+    width: "98%",
   },
 });
 export default EventFeed;
